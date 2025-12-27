@@ -95,6 +95,7 @@ import 'package:go_router/go_router.dart';
 
 import '../modules/no use/cache/api_test_log.dart';
 import '../modules/no use/permission_view.dart';
+import '../modules/view/menu_screen.dart';
 import '../modules/widgets/route_error_screen.dart';
 
 class AppRoutes {
@@ -127,7 +128,7 @@ class AppRoutes {
       GoRoute(
         path: home,
         builder: (context, state) {
-          return UsersScreen();
+          return TodoScreen();
         },
         routes: [
           GoRoute(
