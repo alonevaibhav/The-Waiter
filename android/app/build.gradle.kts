@@ -8,11 +8,12 @@ plugins {
 android {
     namespace = "com.example.the_waiter"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -41,4 +42,8 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies {
+    // ✅ Use correct Kotlin DSL format
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
