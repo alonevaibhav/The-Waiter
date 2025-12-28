@@ -3,7 +3,7 @@
 // import 'package:get/get.dart';
 // import 'package:get_storage/get_storage.dart';
 //
-// import '../../core/storage/model/menu_item.dart';
+// import '../../core/storage/model/todo.dart';
 //
 // class TodoController extends GetxController {
 //   // GetStorage instance
@@ -124,7 +124,7 @@
 
 import 'package:flutter/material.dart';
 import '../../core/Utils/snakbar_util.dart';
-import '../../core/storage/model/menu_item.dart';
+import '../../core/storage/model/todo.dart';
 import '../../core/storage/storage_service.dart';
 
 class TodoController {
