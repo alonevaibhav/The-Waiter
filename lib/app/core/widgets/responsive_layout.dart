@@ -17,11 +17,22 @@ class ResponsiveLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final breakpoints = ResponsiveBreakpoints.of(context);
 
-    if (breakpoints.largerThan(TABLET)) {
+    // Debug prints (remove these in production)
+    print('Current breakpoint: ${breakpoints.breakpoint.name}');
+    print('Screen width: ${MediaQuery.of(context).size.width}');
+
+    // Check breakpoints in order: Desktop -> Tablet -> Mobile
+    if (breakpoints.isDesktop || breakpoints.equals('4K')) {
+      // >= 801px
+      print('✅ Using DESKTOP layout');
       return desktop ?? tablet ?? mobile ?? const SizedBox.shrink();
-    } else if (breakpoints.between(MOBILE, DESKTOP)) {
+    } else if (breakpoints.isTablet) {
+      // 451px - 800px
+      print('✅ Using TABLET layout');
       return tablet ?? mobile ?? desktop ?? const SizedBox.shrink();
     } else {
+      // 0px - 450px
+      print('✅ Using MOBILE layout');
       return mobile ?? tablet ?? desktop ?? const SizedBox.shrink();
     }
   }

@@ -11,7 +11,7 @@ class LoginResponsive extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ResponsiveLayout(
       mobile: MobileLoginScreen(),
-      // tablet: LoginScreen(),
+      tablet: LoginScreen(),
       desktop: LoginScreen(),
     );
   }
