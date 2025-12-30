@@ -1,74 +1,53 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:convert';
+import 'package:flutter/material.dart';
+import '../../core/Utils/snakbar_util.dart';
+import '../../route/app_routes.dart';
 
 class LoginController extends GetxController {
-  final box = GetStorage();
+  // Form key
+  final formKey = GlobalKey<FormState>();
 
-  // Observable variables
-  final employeeIdController = TextEditingController();
+  // Text editing controllers
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final isPasswordVisible = false.obs;
+  // Observable variables
+  final selectedRole = Rxn<String>();
   final isLoading = false.obs;
-  final errorMessage = "".obs;
-  final currentStep = 0.obs; // 0 for Employee ID, 1 for Password
+  final obscurePassword = true.obs;
 
-  // Form keys
-  final employeeIdFormKey = GlobalKey<FormState>();
-  final passwordFormKey = GlobalKey<FormState>();
-
-  @override
-  void onInit() {
-    super.onInit();
-    checkStoredCredentials();
-  }
+  // Role list
+  final List<String> roles = ['Manager', 'User', 'Chef'];
 
   @override
   void onClose() {
-    employeeIdController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.onClose();
   }
 
-  void checkStoredCredentials() async {
-    final storedEmployeeId = box.read('employee_id');
-    if (storedEmployeeId != null) {
-      employeeIdController.text = storedEmployeeId;
-    }
-  }
-
+  // Toggle password visibility
   void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+    obscurePassword.value = !obscurePassword.value;
   }
 
-  void goToPasswordStep() {
-    if (employeeIdFormKey.currentState!.validate()) {
-      currentStep.value = 1;
-      box.write('employee_id', employeeIdController.text);
-    }
+  // Update selected role
+  void updateRole(String? role) {
+    selectedRole.value = role;
   }
 
-  void goBackToEmployeeId() {
-    currentStep.value = 0;
-    passwordController.clear();
-  }
-
-  String? validateEmployeeId(String? value) {
+  // Validate email
+  String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your Employee ID';
+      return 'Please enter your email';
     }
-    if (value.length < 3) {
-      return 'Employee ID must be at least 3 characters';
+    if (!GetUtils.isEmail(value)) {
+      return 'Please enter a valid email';
     }
     return null;
   }
 
+  // Validate password
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your password';
@@ -78,34 +57,63 @@ class LoginController extends GetxController {
     }
     return null;
   }
-  Future<void> login() async {
-    if (passwordFormKey.currentState?.validate() != true) return;
 
-    isLoading.value = true;
+  // Validate role
+  String? validateRole(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select a role';
+    }
+    return null;
+  }
 
-    // ⏳ Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
+  // Handle login
+  Future<void> handleLogin(context) async {
+    if (formKey.currentState!.validate()) {
+      try {
+        isLoading.value = true;
 
-    try {
-      // Temporary success response
-      Fluttertoast.showToast(
-        msg: "Login Successful",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-      );
-    } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Login Failed",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
-    } finally {
-      isLoading.value = false;
+        // Simulate API call
+        await Future.delayed(const Duration(seconds: 2));
+
+        // Navigate based on role
+        if (selectedRole.value != null) {
+          NavigationService.goToHomeByRole(selectedRole.value!);
+
+
+          // Show success message
+          SnackBarUtil.showSuccess(
+            context,
+            'Login successful',
+            title: 'Success',
+            duration: const Duration(seconds: 2),
+            dismissible: true,
+          );
+        }
+      } catch (e) {
+        // Handle error
+        SnackBarUtil.showError(
+          context,
+          'Login failed. Please try again.',
+          title: 'Error',
+          duration: const Duration(seconds: 2),
+          dismissible: true,
+        );
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 
+  // Handle forgot password
+  void handleForgotPassword(BuildContext context) {
+    SnackBarUtil.showInfo(
+      context,
+      'Password reset link will be sent to your email',
+      title: 'Forgot Password',
+      duration: const Duration(seconds: 2),
+      dismissible: true,
+    );
+    // Navigate to forgot password screen or show dialog
+    // Get.toNamed(Routes.FORGOT_PASSWORD);
+  }
 }

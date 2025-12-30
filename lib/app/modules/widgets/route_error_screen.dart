@@ -41,7 +41,7 @@ class ErrorScreen extends StatelessWidget {
                 ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: NavigationService.goToHome,
+                onPressed: NavigationService.goToLogin,
                 child: const Text('Go Home'),
               ),
             ],

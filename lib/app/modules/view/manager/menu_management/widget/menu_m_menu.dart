@@ -6,14 +6,11 @@ import '../../../../../core/theme/app_theme.dart';
 import '../../../../controllers/manager/menu_controller.dart';
 import 'menu_m_additem.dart';
 
-
 Widget buildMenuGrid(BuildContext context) {
-
   final ManagerMenuController controller = Get.find<ManagerMenuController>();
 
-
   return Padding(
-    padding: EdgeInsets.all(40),
+    padding: EdgeInsets.all(32), // Reduced from 40
     child: LayoutBuilder(
       builder: (context, constraints) {
         final crossAxisCount = getResponsiveCrossAxisCount(constraints.maxWidth);
@@ -25,9 +22,9 @@ Widget buildMenuGrid(BuildContext context) {
             physics: BouncingScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 28,
-              mainAxisSpacing: 28,
-              childAspectRatio: 0.82,
+              crossAxisSpacing: 20, // Reduced from 28
+              mainAxisSpacing: 20, // Reduced from 28
+              childAspectRatio: 0.88, // Adjusted for better proportions
             ),
             itemCount: controller.filteredItems.length,
             itemBuilder: (context, index) {
@@ -55,25 +52,26 @@ Widget buildMenuCard(BuildContext context, MenuItem item, ManagerMenuController 
   return Container(
     decoration: BoxDecoration(
       color: isDark ? AppTheme.darkSurface : AppTheme.surface,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(14), // Reduced from 16
       border: Border.all(
         color: isDark
-            ? AppTheme.darkSurface
-            : AppTheme.surface,
+            ? AppTheme.surfaceVariant.withOpacity(0.2)
+            : Colors.grey.withOpacity(0.1),
+        width: 1,
       ),
       boxShadow: [
         BoxShadow(
           color: isDark
               ? Colors.black.withOpacity(0.3)
               : Colors.grey.withOpacity(0.08),
-          blurRadius: 20,
-          offset: Offset(0, 8),
-          spreadRadius: -4,
+          blurRadius: 16, // Reduced from 20
+          offset: Offset(0, 6), // Reduced from 8
+          spreadRadius: -3, // Reduced from -4
         ),
       ],
     ),
     child: ClipRRect(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -94,7 +92,7 @@ Widget buildCardImage(BuildContext context, MenuItem item, ManagerMenuController
   return Stack(
     children: [
       Container(
-        height: 180,
+        height: 160, // Reduced from 180
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -111,7 +109,7 @@ Widget buildCardImage(BuildContext context, MenuItem item, ManagerMenuController
         ),
         child: Center(
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(16), // Reduced from 20
             decoration: BoxDecoration(
               color: (isDark ? AppTheme.darkSurface : AppTheme.surface)
                   .withOpacity(0.8),
@@ -119,7 +117,7 @@ Widget buildCardImage(BuildContext context, MenuItem item, ManagerMenuController
             ),
             child: Icon(
               Icons.restaurant,
-              size: 48,
+              size: 42, // Reduced from 48
               color: AppTheme.primary.withOpacity(0.7),
             ),
           ),
@@ -127,8 +125,8 @@ Widget buildCardImage(BuildContext context, MenuItem item, ManagerMenuController
       ),
       if (item.isSpecialOffer) buildSpecialBadge(context),
       Positioned(
-        top: 14,
-        right: 14,
+        top: 10, // Reduced from 14
+        right: 10,
         child: buildMenuButton(context, item, controller),
       ),
     ],
@@ -137,10 +135,10 @@ Widget buildCardImage(BuildContext context, MenuItem item, ManagerMenuController
 
 Widget buildSpecialBadge(BuildContext context) {
   return Positioned(
-    top: 14,
-    left: 14,
+    top: 10, // Reduced from 14
+    left: 10,
     child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6), // Reduced
       decoration: BoxDecoration(
         color: AppTheme.warning,
         borderRadius: BorderRadius.circular(8),
@@ -155,15 +153,15 @@ Widget buildSpecialBadge(BuildContext context) {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.local_offer, color: Colors.white, size: 14),
-          SizedBox(width: 6),
+          Icon(Icons.local_offer, color: Colors.white, size: 12), // Reduced from 14
+          SizedBox(width: 5), // Reduced from 6
           Text(
             'SPECIAL',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 11,
+              fontSize: 10, // Reduced from 11
               fontWeight: FontWeight.w800,
-              letterSpacing: 0.8,
+              letterSpacing: 0.6, // Reduced from 0.8
             ),
           ),
         ],
@@ -179,30 +177,31 @@ Widget buildMenuButton(BuildContext context, MenuItem item, ManagerMenuControlle
   return Container(
     decoration: BoxDecoration(
       color: isDark ? AppTheme.darkSurface : AppTheme.surface,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8), // Reduced from 10
       boxShadow: [
         BoxShadow(
           color: isDark
               ? Colors.black.withOpacity(0.3)
               : Colors.grey.withOpacity(0.15),
-          blurRadius: 12,
-          offset: Offset(0, 4),
+          blurRadius: 10, // Reduced from 12
+          offset: Offset(0, 3), // Reduced from 4
         ),
       ],
     ),
     child: PopupMenuButton(
       icon: Container(
-        padding: EdgeInsets.all(8),
+        padding: EdgeInsets.all(6), // Reduced from 8
         child: Icon(
           Icons.more_vert,
-          size: 20,
+          size: 18, // Reduced from 20
           color: isDark ? AppTheme.darkTextPrimary : AppTheme.textSecondary,
         ),
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10), // Reduced from 12
       ),
       elevation: 8,
+      offset: Offset(0, 8),
       itemBuilder: (context) => [
         buildPopupMenuItem(
           context,
@@ -231,8 +230,10 @@ PopupMenuItem buildPopupMenuItem(
       required VoidCallback onTap,
     }) {
   final theme = Theme.of(context);
+  final isDark = theme.brightness == Brightness.dark;
 
   return PopupMenuItem(
+    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10), // Reduced padding
     child: Row(
       children: [
         Container(
@@ -241,13 +242,15 @@ PopupMenuItem buildPopupMenuItem(
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Icon(icon, size: 18, color: color),
+          child: Icon(icon, size: 16, color: color), // Reduced from 18
         ),
-        SizedBox(width: 12),
+        SizedBox(width: 10), // Reduced from 12
         Text(
           label,
           style: theme.textTheme.titleSmall?.copyWith(
-            color: label == 'Delete' ? color : null,
+            color: label == 'Delete' ? color : (isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],
@@ -261,7 +264,7 @@ Widget buildCardContent(BuildContext context, MenuItem item, ManagerMenuControll
   final isDark = theme.brightness == Brightness.dark;
 
   return Padding(
-    padding: EdgeInsets.all(18),
+    padding: EdgeInsets.all(14), // Reduced from 18
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -270,13 +273,30 @@ Widget buildCardContent(BuildContext context, MenuItem item, ManagerMenuControll
           style: theme.textTheme.titleLarge?.copyWith(
             color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
             fontWeight: FontWeight.w700,
-            fontSize: 18,
+            fontSize: 16, // Reduced from 18
+            height: 1.2,
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         SizedBox(height: 6),
         buildCategoryChip(context, item.category),
+
+        // Add description if available
+        if (item.description != null && item.description!.isNotEmpty) ...[
+          SizedBox(height: 8),
+          Text(
+            item.description!,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary,
+              fontSize: 12,
+              height: 1.3,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+
         Spacer(),
         buildCardFooter(context, item, controller),
       ],
@@ -289,19 +309,23 @@ Widget buildCategoryChip(BuildContext context, String category) {
   final isDark = theme.brightness == Brightness.dark;
 
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4), // Reduced
     decoration: BoxDecoration(
       color: isDark
           ? AppTheme.darkSurfaceVariant
           : AppTheme.primaryLight.withOpacity(0.1),
       borderRadius: BorderRadius.circular(6),
+      border: Border.all(
+        color: AppTheme.primary.withOpacity(0.2),
+        width: 1,
+      ),
     ),
     child: Text(
       category,
       style: theme.textTheme.labelSmall?.copyWith(
         color: AppTheme.primary,
         fontWeight: FontWeight.w600,
-        fontSize: 12,
+        fontSize: 11, // Reduced from 12
       ),
     ),
   );
@@ -309,41 +333,102 @@ Widget buildCategoryChip(BuildContext context, String category) {
 
 Widget buildCardFooter(BuildContext context, MenuItem item, ManagerMenuController controller) {
   final theme = Theme.of(context);
+  final isDark = theme.brightness == Brightness.dark;
 
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      Text(
-        '₹${item.price.toStringAsFixed(0)}',
-        style: theme.textTheme.headlineMedium?.copyWith(
-          color: AppTheme.primary,
-          fontSize: 24,
-          fontWeight: FontWeight.w800,
+  return Container(
+    padding: EdgeInsets.only(top: 10), // Added padding
+    decoration: BoxDecoration(
+      border: Border(
+        top: BorderSide(
+          color: isDark
+              ? AppTheme.surfaceVariant.withOpacity(0.2)
+              : Colors.grey.withOpacity(0.1),
+          width: 1,
         ),
       ),
-      Row(
-        children: [
-          buildActionButton(
-            context,
-            icon: item.isAvailable ? Icons.visibility : Icons.visibility_off,
-            color: item.isAvailable ? AppTheme.success : AppTheme.textSecondary,
-            isActive: item.isAvailable,
-            tooltip: item.isAvailable ? 'Available' : 'Unavailable',
-            onPressed: () => controller.toggleAvailability(item.id),
-          ),
-          SizedBox(width: 8),
-          buildActionButton(
-            context,
-            icon: Icons.local_offer,
-            color: item.isSpecialOffer ? AppTheme.warning : AppTheme.textSecondary,
-            isActive: item.isSpecialOffer,
-            tooltip: 'Special Offer',
-            onPressed: () => controller.toggleSpecialOffer(item.id),
-          ),
-        ],
-      ),
-    ],
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Price with discount if applicable
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (item.isSpecialOffer && item.discountPercent != null) ...[
+              Text(
+                '₹${item.price.toStringAsFixed(0)}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: AppTheme.textSecondary,
+                  fontSize: 12,
+                  decoration: TextDecoration.lineThrough,
+                  height: 1,
+                ),
+              ),
+              SizedBox(height: 2),
+              Row(
+                children: [
+                  Text(
+                    '₹${(item.price * (1 - item.discountPercent! / 100)).toStringAsFixed(0)}',
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      color: AppTheme.primary,
+                      fontSize: 20, // Reduced from 24
+                      fontWeight: FontWeight.w800,
+                      height: 1,
+                    ),
+                  ),
+                  SizedBox(width: 6),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppTheme.success.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      '${item.discountPercent}% OFF',
+                      style: TextStyle(
+                        color: AppTheme.success,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ] else
+              Text(
+                '₹${item.price.toStringAsFixed(0)}',
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primary,
+                  fontSize: 20, // Reduced from 24
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+          ],
+        ),
+        Row(
+          children: [
+            buildActionButton(
+              context,
+              icon: item.isAvailable ? Icons.visibility : Icons.visibility_off,
+              color: item.isAvailable ? AppTheme.success : AppTheme.textSecondary,
+              isActive: item.isAvailable,
+              tooltip: item.isAvailable ? 'Available' : 'Unavailable',
+              onPressed: () => controller.toggleAvailability(item.id),
+            ),
+            SizedBox(width: 6), // Reduced from 8
+            buildActionButton(
+              context,
+              icon: Icons.local_offer,
+              color: item.isSpecialOffer ? AppTheme.warning : AppTheme.textSecondary,
+              isActive: item.isSpecialOffer,
+              tooltip: 'Special Offer',
+              onPressed: () => controller.toggleSpecialOffer(item.id),
+            ),
+          ],
+        ),
+      ],
+    ),
   );
 }
 
@@ -357,19 +442,24 @@ Widget buildActionButton(
     }) {
   return Container(
     decoration: BoxDecoration(
-      color: color.withOpacity(isActive ? 0.1 : 0.05),
-      borderRadius: BorderRadius.circular(8),
+      color: color.withOpacity(isActive ? 0.12 : 0.05),
+      borderRadius: BorderRadius.circular(7), // Reduced from 8
+      border: isActive ? Border.all(
+        color: color.withOpacity(0.3),
+        width: 1,
+      ) : null,
     ),
     child: IconButton(
       icon: Icon(
         icon,
         color: isActive ? color : color.withOpacity(0.6),
-        size: 20,
+        size: 18, // Reduced from 20
       ),
       onPressed: onPressed,
       tooltip: tooltip,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(6), // Reduced from 8
       constraints: const BoxConstraints(),
+      splashRadius: 18,
     ),
   );
 }
@@ -380,12 +470,12 @@ Widget buildEmptyState(BuildContext context) {
 
   return Center(
     child: Container(
-      padding: EdgeInsets.all(48),
+      padding: EdgeInsets.all(40), // Reduced from 48
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(32),
+            padding: EdgeInsets.all(28), // Reduced from 32
             decoration: BoxDecoration(
               color: isDark
                   ? AppTheme.darkSurfaceVariant
@@ -401,40 +491,44 @@ Widget buildEmptyState(BuildContext context) {
             ),
             child: Icon(
               Icons.restaurant_menu,
-              size: 80,
+              size: 70, // Reduced from 80
               color: AppTheme.primary.withOpacity(0.3),
             ),
           ),
-          SizedBox(height: 32),
+          SizedBox(height: 28), // Reduced from 32
           Text(
             'No menu items found',
             style: theme.textTheme.headlineMedium?.copyWith(
               color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
               fontWeight: FontWeight.w700,
+              fontSize: 22,
             ),
           ),
-          SizedBox(height: 12),
+          SizedBox(height: 10), // Reduced from 12
           Text(
             'Start building your menu by adding your first item',
             style: theme.textTheme.bodyLarge?.copyWith(
               color: isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary,
+              fontSize: 14,
             ),
+            textAlign: TextAlign.center,
           ),
-          SizedBox(height: 32),
+          SizedBox(height: 28), // Reduced from 32
           ElevatedButton.icon(
             onPressed: () => showAddEditDialog(context),
-            icon: Icon(Icons.add_circle_outline),
+            icon: Icon(Icons.add_circle_outline, size: 20),
             label: Text('Add Your First Item'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primary,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 18),
+              padding: EdgeInsets.symmetric(horizontal: 28, vertical: 16), // Reduced
               elevation: 0,
               textStyle: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w700,
+                fontSize: 15,
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
           ),

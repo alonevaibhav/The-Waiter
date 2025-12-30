@@ -163,7 +163,8 @@ class UsersScreen extends StatelessWidget {
 
               ElevatedButton(
                 onPressed: () {
-                  NavigationService.pushToPermission();
+                  // NavigationService.pushToPermission();
+                  null;
                 },
                 child: const Text('Go to Permission'),
               ),
