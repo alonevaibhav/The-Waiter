@@ -1,11 +1,10 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../menu_management/menu management_view.dart';
 
-
 class DashboardView extends StatelessWidget {
+  DashboardView({super.key});
   final selectedIndex = 0.obs;
 
   @override
@@ -127,26 +126,30 @@ class DashboardView extends StatelessWidget {
   }
 
   Widget _buildMenuItem(int index, IconData icon, String title) {
-    return Obx(() => ListTile(
-      leading: Icon(
-        icon,
-        color: selectedIndex.value == index ? Colors.orange : Colors.white70,
-        size: 24,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: selectedIndex.value == index ? Colors.white : Colors.white70,
-          fontWeight: selectedIndex.value == index ? FontWeight.bold : FontWeight.normal,
-          fontSize: 15,
+    return Obx(
+      () => ListTile(
+        leading: Icon(
+          icon,
+          color: selectedIndex.value == index ? Colors.orange : Colors.white70,
+          size: 24,
         ),
-        overflow: TextOverflow.ellipsis,
+        title: Text(
+          title,
+          style: TextStyle(
+            color: selectedIndex.value == index ? Colors.white : Colors.white70,
+            fontWeight: selectedIndex.value == index
+                ? FontWeight.bold
+                : FontWeight.normal,
+            fontSize: 15,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        selected: selectedIndex.value == index,
+        selectedTileColor: Colors.orange.withOpacity(0.1),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+        onTap: () => selectedIndex.value = index,
       ),
-      selected: selectedIndex.value == index,
-      selectedTileColor: Colors.orange.withOpacity(0.1),
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      onTap: () => selectedIndex.value = index,
-    ));
+    );
   }
 }
 
@@ -230,24 +233,45 @@ class DashboardHomeView extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                      boxShadow: [
+                        BoxShadow(color: Colors.black12, blurRadius: 4),
+                      ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Quick Access',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 16),
                         Wrap(
                           spacing: 16,
                           runSpacing: 16,
                           children: [
-                            _buildQuickActionCard('Manage Menu', Icons.restaurant_menu, Colors.orange),
-                            _buildQuickActionCard('View Orders', Icons.list_alt, Colors.blue),
-                            _buildQuickActionCard('Table Status', Icons.table_bar, Colors.green),
-                            _buildQuickActionCard('Staff Schedule', Icons.people, Colors.purple),
+                            _buildQuickActionCard(
+                              'Manage Menu',
+                              Icons.restaurant_menu,
+                              Colors.orange,
+                            ),
+                            _buildQuickActionCard(
+                              'View Orders',
+                              Icons.list_alt,
+                              Colors.blue,
+                            ),
+                            _buildQuickActionCard(
+                              'Table Status',
+                              Icons.table_bar,
+                              Colors.green,
+                            ),
+                            _buildQuickActionCard(
+                              'Staff Schedule',
+                              Icons.people,
+                              Colors.purple,
+                            ),
                           ],
                         ),
                       ],
@@ -267,7 +291,13 @@ class DashboardHomeView extends StatelessWidget {
       padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -317,7 +347,13 @@ class DashboardHomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color, String subtitle) {
+  Widget _buildStatCard(
+    String title,
+    String value,
+    IconData icon,
+    Color color,
+    String subtitle,
+  ) {
     return Container(
       constraints: BoxConstraints(minHeight: 150),
       padding: EdgeInsets.all(20),
@@ -329,7 +365,7 @@ class DashboardHomeView extends StatelessWidget {
             color: Colors.black.withOpacity(0.06),
             blurRadius: 8,
             offset: Offset(0, 2),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -358,10 +394,7 @@ class DashboardHomeView extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
-          Text(
-            title,
-            style: TextStyle(color: Colors.grey[600], fontSize: 14),
-          ),
+          Text(title, style: TextStyle(color: Colors.grey[600], fontSize: 14)),
           SizedBox(height: 4),
           Text(
             value,
@@ -409,4 +442,3 @@ class DashboardHomeView extends StatelessWidget {
     );
   }
 }
-

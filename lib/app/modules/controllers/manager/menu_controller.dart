@@ -13,6 +13,9 @@ class ManagerMenuController extends GetxController {
   final selectedCategory = 'All'.obs;
   final searchQuery = ''.obs;
   final isLoading = false.obs;
+  final errorMessage = ''.obs;
+
+
 
   @override
   void onInit() {
