@@ -72,8 +72,7 @@ class ManagerMenuController extends GetxController {
     await _storage.update(
       StorageService.menuKey,
       item.id,
-      item,
-          (item) => item.toJson(),
+      item, (item) => item.toJson(),
     );
     loadMenuItems();
     Get.snackbar('Success', 'Menu item updated successfully');
