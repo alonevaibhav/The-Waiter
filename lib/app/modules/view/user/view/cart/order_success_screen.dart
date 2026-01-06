@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import '../../../../../core/theme/app_theme.dart';
+import '../../../../../route/app_routes.dart';
 
 class OrderSuccessScreen extends StatefulWidget {
   final Map<String, dynamic> orderDetails;
@@ -324,51 +325,13 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen>
               ),
               child: Column(
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.snackbar(
-                          'Track Order',
-                          'Order tracking feature coming soon!',
-                          snackPosition: SnackPosition.BOTTOM,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        padding: EdgeInsets.symmetric(
-                          vertical: AppTheme.space16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppTheme.radiusMedium,
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.my_location, size: 20),
-                          SizedBox(width: AppTheme.space8),
-                          Text(
-                            'Track Order',
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              color: theme.colorScheme.onPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   SizedBox(height: AppTheme.space12),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
                         // Go back to home and clear all previous routes
-                        Get.until((route) => route.isFirst);
+                        NavigationService.goToUserHome();
                       },
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(
