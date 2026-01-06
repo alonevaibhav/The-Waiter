@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 // import 'package:get/get.dart';
 // import 'package:qr_flutter/qr_flutter.dart';
 // import '../../../controllers/manager/qr_code_controller.dart';
@@ -9,258 +10,222 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     final controller = Get.put(QrGeneratorController());
-//     final screenWidth = MediaQuery.of(context).size.width;
-//     final isSmallScreen = screenWidth < 1024;
 //
 //     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('QR Code Generator'),
-//         centerTitle: true,
-//         elevation: 0,
-//         flexibleSpace: Container(
-//           decoration: const BoxDecoration(
-//             gradient: LinearGradient(
-//               colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-//               begin: Alignment.topLeft,
-//               end: Alignment.bottomRight,
-//             ),
-//           ),
-//         ),
-//       ),
-//       body: Container(
-//         decoration: const BoxDecoration(
-//           gradient: LinearGradient(
-//             colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-//             begin: Alignment.topLeft,
-//             end: Alignment.bottomRight,
-//           ),
-//         ),
-//         child: SafeArea(
-//           child: Center(
-//             child: SingleChildScrollView(
-//               padding: EdgeInsets.all(isSmallScreen ? 20 : 40),
-//               child: Container(
-//                 constraints: const BoxConstraints(maxWidth: 1400),
-//                 decoration: BoxDecoration(
-//                   color: Colors.white,
-//                   borderRadius: BorderRadius.circular(24),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Colors.black.withOpacity(0.2),
-//                       blurRadius: 30,
-//                       offset: const Offset(0, 15),
-//                     ),
-//                   ],
-//                 ),
-//                 padding: EdgeInsets.all(isSmallScreen ? 30 : 50),
-//                 child: Column(
-//                   children: [
-//                     _buildHeader(),
-//                     const SizedBox(height: 50),
-//                     isSmallScreen
-//                         ? Column(
-//                             children: [
-//                               _buildInputSection(controller),
-//                               const SizedBox(height: 40),
-//                               Obx(
-//                                 () => controller.showQr.value
-//                                     ? _buildQrDisplay(controller)
-//                                     : _buildPlaceholder(),
-//                               ),
-//                             ],
-//                           )
-//                         : Row(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Expanded(
-//                                 flex: 2,
-//                                 child: Container(
-//                                   padding: const EdgeInsets.all(35),
-//                                   decoration: BoxDecoration(
-//                                     color: Colors.grey[50],
-//                                     borderRadius: BorderRadius.circular(16),
-//                                     border: Border.all(
-//                                       color: Colors.grey[200]!,
-//                                       width: 2,
-//                                     ),
-//                                   ),
-//                                   child: _buildInputSection(controller),
-//                                 ),
-//                               ),
-//                               const SizedBox(width: 50),
-//                               Expanded(
-//                                 flex: 3,
-//                                 child: Obx(
-//                                   () => controller.showQr.value
-//                                       ? _buildQrDisplay(controller)
-//                                       : _buildPlaceholder(),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+//       body: Column(
+//         children: [
+//           // Compact Fixed Header
+//           _buildAppBar(),
 //
-//   Widget _buildHeader() {
-//     return Column(
-//       children: [
-//         const Icon(Icons.qr_code_2, size: 80, color: Color(0xFF667eea)),
-//         const SizedBox(height: 20),
-//         const Text(
-//           '🍽️ The Waiter App',
-//           style: TextStyle(
-//             fontSize: 36,
-//             fontWeight: FontWeight.bold,
-//             color: Color(0xFF333333),
-//             letterSpacing: 0.5,
-//           ),
-//         ),
-//         const SizedBox(height: 10),
-//         Text(
-//           'Professional QR Code Generator for Restaurant Tables',
-//           style: TextStyle(
-//             fontSize: 18,
-//             color: Colors.grey[600],
-//             fontWeight: FontWeight.w400,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-//
-//   Widget _buildInputSection(QrGeneratorController controller) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         const Text(
-//           'Table Configuration',
-//           style: TextStyle(
-//             fontSize: 22,
-//             fontWeight: FontWeight.bold,
-//             color: Color(0xFF333333),
-//           ),
-//         ),
-//         const SizedBox(height: 10),
-//         Text(
-//           'Enter the table number to generate a unique QR code',
-//           style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-//         ),
-//         const SizedBox(height: 30),
-//
-//         // Table Number Input
-//         TextField(
-//           controller: controller.tableNumberController,
-//           keyboardType: TextInputType.number,
-//           style: const TextStyle(fontSize: 18),
-//           decoration: InputDecoration(
-//             labelText: 'Table Number',
-//             labelStyle: const TextStyle(fontSize: 16),
-//             hintText: 'e.g., 167',
-//             prefixIcon: const Icon(
-//               Icons.table_restaurant,
-//               color: Color(0xFF667eea),
-//               size: 28,
-//             ),
-//             border: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(12),
-//               borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
-//             ),
-//             enabledBorder: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(12),
-//               borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
-//             ),
-//             focusedBorder: OutlineInputBorder(
-//               borderRadius: BorderRadius.circular(12),
-//               borderSide: const BorderSide(color: Color(0xFF667eea), width: 2),
-//             ),
-//             filled: true,
-//             fillColor: Colors.white,
-//             contentPadding: const EdgeInsets.symmetric(
-//               horizontal: 20,
-//               vertical: 20,
-//             ),
-//           ),
-//           onChanged: (value) => controller.updateUrl(),
-//         ),
-//         const SizedBox(height: 30),
-//
-//         // Generate Button
-//         SizedBox(
-//           width: double.infinity,
-//           height: 55,
-//           child: ElevatedButton.icon(
-//             onPressed: controller.generateQr,
-//             icon: const Icon(Icons.refresh, size: 24),
-//             label: const Text(
-//               'Generate QR Code',
-//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-//             ),
-//             style: ElevatedButton.styleFrom(
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(12),
-//               ),
-//               backgroundColor: const Color(0xFF667eea),
-//               foregroundColor: Colors.white,
-//               elevation: 2,
-//             ),
-//           ),
-//         ),
-//         const SizedBox(height: 40),
-//
-//         // Testing Section
-//         Container(
-//           padding: const EdgeInsets.all(20),
-//           decoration: BoxDecoration(
-//             color: Colors.blue[50],
-//             borderRadius: BorderRadius.circular(12),
-//             border: Border.all(color: Colors.blue[200]!),
-//           ),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Row(
+//           // Main Content (No Scroll)
+//           Expanded(
+//             child: Padding(
+//               padding: const EdgeInsets.all(24),
+//               child: Row(
+//                 crossAxisAlignment: CrossAxisAlignment.stretch,
 //                 children: [
-//                   Icon(Icons.science, color: Colors.blue[700], size: 22),
-//                   const SizedBox(width: 10),
-//                   Text(
-//                     'Usage Guide',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                       color: Colors.blue[900],
-//                       fontSize: 16,
+//                   // Left Panel - Input Section
+//                   Expanded(flex: 2, child: _buildInputSection(controller)),
+//                   const SizedBox(width: 24),
+//
+//                   // Right Panel - QR Display
+//                   Expanded(
+//                     flex: 3,
+//                     child: Obx(
+//                       () => controller.showQr.value
+//                           ? _buildQrDisplay(controller)
+//                           : _buildPlaceholder(),
 //                     ),
 //                   ),
 //                 ],
 //               ),
-//               const SizedBox(height: 15),
-//               Text(
-//                 '• Download QR codes for each table\n'
-//                 '• Print and laminate for durability\n'
-//                 '• Display at table locations\n'
-//                 '• Customers scan to open menu',
-//                 style: TextStyle(
-//                   fontSize: 14,
-//                   color: Colors.blue[800],
-//                   height: 1.8,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget _buildAppBar() {
+//     return Container(
+//       height: 65,
+//       decoration: const BoxDecoration(
+//         gradient: LinearGradient(
+//           colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//         ),
+//       ),
+//       padding: const EdgeInsets.symmetric(horizontal: 24),
+//       child: Row(
+//         children: [
+//           const Icon(Icons.qr_code_2, color: Colors.white, size: 28),
+//           const SizedBox(width: 12),
+//           const Text(
+//             '🍽️ The Waiter App - QR Code Generator',
+//             style: TextStyle(
+//               color: Colors.white,
+//               fontSize: 20,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget _buildInputSection(QrGeneratorController controller) {
+//     return Container(
+//       padding: const EdgeInsets.all(24),
+//       decoration: BoxDecoration(
+//         color: Colors.grey[50],
+//         borderRadius: BorderRadius.circular(16),
+//         border: Border.all(color: Colors.grey[200]!, width: 2),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           const Text(
+//             'Table Configuration',
+//             style: TextStyle(
+//               fontSize: 20,
+//               fontWeight: FontWeight.bold,
+//               color: Color(0xFF333333),
+//             ),
+//           ),
+//           const SizedBox(height: 8),
+//           Text(
+//             'Generate QR code for restaurant tables',
+//             style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+//           ),
+//           const SizedBox(height: 24),
+//
+//           // Table Number Input
+//           Focus(
+//             onKeyEvent: (node, event) {
+//               if (event is KeyDownEvent &&
+//                   event.logicalKey == LogicalKeyboardKey.enter) {
+//                 controller.generateQr();
+//                 return KeyEventResult.handled;
+//               }
+//               return KeyEventResult.ignored;
+//             },
+//             child: TextField(
+//               controller: controller.tableNumberController,
+//               keyboardType: TextInputType.number,
+//               autofocus: true,
+//               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//               maxLength: 3,
+//               style: const TextStyle(fontSize: 16),
+//               decoration: InputDecoration(
+//                 labelText: 'Table Number',
+//                 labelStyle: const TextStyle(fontSize: 14),
+//                 hintText: 'e.g., 167',
+//                 counterText: '',
+//                 prefixIcon: const Icon(
+//                   Icons.table_restaurant,
+//                   color: Color(0xFF667eea),
+//                   size: 22,
+//                 ),
+//                 border: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                   borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
+//                 ),
+//                 enabledBorder: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                   borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
+//                 ),
+//                 focusedBorder: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                   borderSide: const BorderSide(
+//                     color: Color(0xFF667eea),
+//                     width: 2,
+//                   ),
+//                 ),
+//                 filled: true,
+//                 fillColor: Colors.white,
+//                 contentPadding: const EdgeInsets.symmetric(
+//                   horizontal: 10,
+//                   vertical: 10,
 //                 ),
 //               ),
-//             ],
+//               onChanged: (value) => controller.updateUrl(),
+//             ),
 //           ),
-//         ),
-//       ],
+//           const SizedBox(height: 20),
+//
+//           // Generate Button
+//           SizedBox(
+//             width: double.infinity,
+//             height: 48,
+//             child: ElevatedButton.icon(
+//               onPressed: controller.generateQr,
+//               icon: const Icon(Icons.refresh, size: 20),
+//               label: const Text(
+//                 'Generate QR Code',
+//                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+//               ),
+//               style: ElevatedButton.styleFrom(
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//                 backgroundColor: const Color(0xFF667eea),
+//                 foregroundColor: Colors.white,
+//                 elevation: 2,
+//               ),
+//             ),
+//           ),
+//           const SizedBox(height: 20),
+//
+//           // Compact Usage Guide
+//           Container(
+//             padding: const EdgeInsets.all(16),
+//             decoration: BoxDecoration(
+//               color: Colors.blue[50],
+//               borderRadius: BorderRadius.circular(12),
+//               border: Border.all(color: Colors.blue[200]!),
+//             ),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Row(
+//                   children: [
+//                     Icon(Icons.info_outline, color: Colors.blue[700], size: 18),
+//                     const SizedBox(width: 8),
+//                     Text(
+//                       'Usage Guide',
+//                       style: TextStyle(
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.blue[900],
+//                         fontSize: 14,
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 const SizedBox(height: 12),
+//                 Text(
+//                   '• Download QR codes for each table\n'
+//                   '• Print and laminate for durability\n'
+//                   '• Display at table locations\n'
+//                   '• Customers scan to open menu',
+//                   style: TextStyle(
+//                     fontSize: 12,
+//                     color: Colors.blue[800],
+//                     height: 1.6,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
 //     );
 //   }
 //
 //   Widget _buildQrDisplay(QrGeneratorController controller) {
 //     return Container(
-//       padding: const EdgeInsets.all(40),
+//       padding: const EdgeInsets.all(24),
 //       decoration: BoxDecoration(
 //         gradient: LinearGradient(
 //           colors: [Colors.grey[50]!, Colors.grey[100]!],
@@ -271,33 +236,34 @@
 //         border: Border.all(color: const Color(0xFF667eea), width: 3),
 //         boxShadow: [
 //           BoxShadow(
-//             color: const Color(0xFF667eea).withOpacity(0.1),
+//             color: const Color(0xFF667eea).withOpacity(0.15),
 //             blurRadius: 20,
 //             offset: const Offset(0, 10),
 //           ),
 //         ],
 //       ),
 //       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
 //         children: [
 //           // QR Code Header
 //           Text(
 //             'Table ${controller.tableNumberController.text}',
 //             style: const TextStyle(
-//               fontSize: 28,
+//               fontSize: 26,
 //               fontWeight: FontWeight.bold,
 //               color: Color(0xFF333333),
 //             ),
 //           ),
-//           const SizedBox(height: 10),
+//           const SizedBox(height: 6),
 //           Text(
 //             'Scan to Order',
 //             style: TextStyle(
-//               fontSize: 16,
+//               fontSize: 15,
 //               color: Colors.grey[600],
 //               fontWeight: FontWeight.w500,
 //             ),
 //           ),
-//           const SizedBox(height: 30),
+//           const SizedBox(height: 20),
 //
 //           // QR Code Display
 //           RepaintBoundary(
@@ -308,31 +274,27 @@
 //                 borderRadius: BorderRadius.circular(16),
 //                 boxShadow: [
 //                   BoxShadow(
-//                     color: Colors.black.withOpacity(0.1),
-//                     blurRadius: 15,
-//                     offset: const Offset(0, 5),
+//                     color: Colors.black.withOpacity(0.08),
+//                     blurRadius: 16,
+//                     offset: const Offset(0, 8),
 //                   ),
 //                 ],
 //               ),
-//               padding: const EdgeInsets.all(30),
+//               padding: const EdgeInsets.all(24),
 //               child: QrImageView(
 //                 data: controller.generatedUrl.value,
 //                 version: QrVersions.auto,
-//                 size: 320.0,
+//                 size: 200.0,
 //                 backgroundColor: Colors.white,
-//                 errorCorrectionLevel: QrErrorCorrectLevel.H,
-//                 embeddedImage: null,
-//                 embeddedImageStyle: const QrEmbeddedImageStyle(
-//                   size: Size(60, 60),
-//                 ),
+//                 errorCorrectionLevel: QrErrorCorrectLevel.M,
 //               ),
 //             ),
 //           ),
-//           const SizedBox(height: 25),
+//           const SizedBox(height: 16),
 //
-//           // URL Display
+//           // Compact URL Display
 //           Container(
-//             padding: const EdgeInsets.all(16),
+//             padding: const EdgeInsets.all(10),
 //             decoration: BoxDecoration(
 //               color: Colors.white,
 //               borderRadius: BorderRadius.circular(10),
@@ -341,9 +303,10 @@
 //             child: Column(
 //               children: [
 //                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
 //                   children: [
-//                     Icon(Icons.link, color: Colors.grey[600], size: 18),
-//                     const SizedBox(width: 8),
+//                     Icon(Icons.link, color: Colors.grey[600], size: 16),
+//                     const SizedBox(width: 6),
 //                     Text(
 //                       'Generated URL',
 //                       style: TextStyle(
@@ -354,25 +317,26 @@
 //                     ),
 //                   ],
 //                 ),
-//                 const SizedBox(height: 8),
+//                 const SizedBox(height: 6),
 //                 SelectableText(
 //                   controller.generatedUrl.value,
 //                   style: TextStyle(
-//                     fontSize: 13,
+//                     fontSize: 11,
 //                     color: Colors.grey[700],
 //                     fontFamily: 'monospace',
 //                   ),
 //                   textAlign: TextAlign.center,
+//                   maxLines: 2,
 //                 ),
 //               ],
 //             ),
 //           ),
-//           const SizedBox(height: 30),
+//           const SizedBox(height: 16),
 //
 //           // Download Button
 //           SizedBox(
 //             width: double.infinity,
-//             height: 55,
+//             height: 48,
 //             child: Obx(
 //               () => ElevatedButton.icon(
 //                 onPressed: controller.isGenerating.value
@@ -380,22 +344,22 @@
 //                     : controller.downloadQr,
 //                 icon: controller.isGenerating.value
 //                     ? const SizedBox(
-//                         width: 22,
-//                         height: 22,
+//                         width: 18,
+//                         height: 18,
 //                         child: CircularProgressIndicator(
-//                           strokeWidth: 2.5,
+//                           strokeWidth: 2,
 //                           valueColor: AlwaysStoppedAnimation<Color>(
 //                             Colors.white,
 //                           ),
 //                         ),
 //                       )
-//                     : const Icon(Icons.download, size: 24),
+//                     : const Icon(Icons.download, size: 20),
 //                 label: Text(
 //                   controller.isGenerating.value
 //                       ? 'Downloading...'
 //                       : 'Download QR Code',
 //                   style: const TextStyle(
-//                     fontSize: 18,
+//                     fontSize: 15,
 //                     fontWeight: FontWeight.w600,
 //                   ),
 //                 ),
@@ -406,31 +370,32 @@
 //                   backgroundColor: const Color(0xFF764ba2),
 //                   foregroundColor: Colors.white,
 //                   elevation: 2,
+//                   disabledBackgroundColor: Colors.grey[400],
 //                 ),
 //               ),
 //             ),
 //           ),
-//           const SizedBox(height: 20),
+//           const SizedBox(height: 12),
 //
-//           // Info Note
+//           // Compact Info Note
 //           Container(
-//             padding: const EdgeInsets.all(18),
+//             padding: const EdgeInsets.all(12),
 //             decoration: BoxDecoration(
 //               color: Colors.amber[50],
-//               border: Border.all(color: Colors.amber[700]!, width: 2),
-//               borderRadius: BorderRadius.circular(12),
+//               border: Border.all(color: Colors.amber[700]!, width: 1.5),
+//               borderRadius: BorderRadius.circular(10),
 //             ),
 //             child: Row(
 //               children: [
-//                 Icon(Icons.info_outline, color: Colors.amber[700], size: 24),
-//                 const SizedBox(width: 12),
+//                 Icon(Icons.info_outline, color: Colors.amber[700], size: 18),
+//                 const SizedBox(width: 10),
 //                 Expanded(
 //                   child: Text(
-//                     'Customers can scan this QR code to open table ${controller.tableNumberController.text} menu in The Waiter app',
+//                     'Scan to open table ${controller.tableNumberController.text} menu',
 //                     style: TextStyle(
-//                       fontSize: 14,
+//                       fontSize: 12,
 //                       color: Colors.amber[900],
-//                       height: 1.5,
+//                       height: 1.4,
 //                     ),
 //                   ),
 //                 ),
@@ -442,38 +407,33 @@
 //     );
 //   }
 //
-//   // Placeholder Widget (When no QR is generated)
 //   Widget _buildPlaceholder() {
 //     return Container(
-//       padding: const EdgeInsets.all(60),
+//       padding: const EdgeInsets.all(40),
 //       decoration: BoxDecoration(
 //         color: Colors.grey[100],
 //         borderRadius: BorderRadius.circular(16),
-//         border: Border.all(
-//           color: Colors.grey[300]!,
-//           width: 2,
-//           style: BorderStyle.solid,
-//         ),
+//         border: Border.all(color: Colors.grey[300]!, width: 2),
 //       ),
 //       child: Column(
 //         mainAxisAlignment: MainAxisAlignment.center,
 //         children: [
-//           Icon(Icons.qr_code_scanner, size: 120, color: Colors.grey[400]),
-//           const SizedBox(height: 30),
+//           Icon(Icons.qr_code_scanner, size: 100, color: Colors.grey[400]),
+//           const SizedBox(height: 24),
 //           Text(
 //             'No QR Code Generated',
 //             style: TextStyle(
-//               fontSize: 24,
+//               fontSize: 22,
 //               fontWeight: FontWeight.bold,
 //               color: Colors.grey[600],
 //             ),
 //           ),
-//           const SizedBox(height: 15),
+//           const SizedBox(height: 12),
 //           Text(
 //             'Enter a table number and click\n"Generate QR Code" to create',
 //             textAlign: TextAlign.center,
 //             style: TextStyle(
-//               fontSize: 16,
+//               fontSize: 14,
 //               color: Colors.grey[500],
 //               height: 1.5,
 //             ),
@@ -483,11 +443,11 @@
 //     );
 //   }
 // }
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../controllers/manager/qr_code_controller.dart';
 
 class QrGeneratorScreen extends StatelessWidget {
@@ -496,33 +456,38 @@ class QrGeneratorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(QrGeneratorController());
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
-    return Scaffold(
-      body: Column(
+    return Container(
+      color: isDark ? AppTheme.darkBackground : AppTheme.background,
+      child: Column(
         children: [
-          // Compact Fixed Header
-          _buildAppBar(),
+          // Compact Header Section
+          _buildHeader(context),
 
-          // Main Content (No Scroll)
+          // Main Content - Scrollable
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Left Panel - Input Section
+                  // Left Panel - Input Configuration (35%)
                   Expanded(
-                    flex: 2,
-                    child: _buildInputSection(controller),
+                    flex: 35,
+                    child: _buildInputSection(controller, theme, isDark),
                   ),
-                  const SizedBox(width: 24),
+                  const SizedBox(width: 20),
 
-                  // Right Panel - QR Display
+                  // Right Panel - QR Display (65%)
                   Expanded(
-                    flex: 3,
-                    child: Obx(() => controller.showQr.value
-                        ? _buildQrDisplay(controller)
-                        : _buildPlaceholder()),
+                    flex: 65,
+                    child: Obx(
+                          () => controller.showQr.value
+                          ? _buildQrDisplay(controller, theme, isDark)
+                          : _buildPlaceholder(theme, isDark),
+                    ),
                   ),
                 ],
               ),
@@ -533,62 +498,115 @@ class QrGeneratorScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar() {
+  Widget _buildHeader(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
-      height: 65,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      decoration: BoxDecoration(
+        color: isDark ? AppTheme.darkSurface : AppTheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         children: [
-          const Icon(Icons.qr_code_2, color: Colors.white, size: 28),
-          const SizedBox(width: 12),
-          const Text(
-            '🍽️ The Waiter App - QR Code Generator',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppTheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10),
             ),
+            child: Icon(
+              Icons.qr_code_2,
+              color: AppTheme.primary,
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'QR Code Generator',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                'Generate and download QR codes for restaurant tables',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary,
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInputSection(QrGeneratorController controller) {
+  Widget _buildInputSection(
+      QrGeneratorController controller,
+      ThemeData theme,
+      bool isDark,
+      ) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[200]!, width: 2),
+        color: isDark ? AppTheme.darkSurface : AppTheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Table Configuration',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF333333),
-            ),
+          // Section Title
+          Row(
+            children: [
+              Icon(
+                Icons.settings,
+                color: AppTheme.primary,
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Configuration',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Generate QR code for restaurant tables',
-            style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-          ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
 
           // Table Number Input
+          Text(
+            'Table Number',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 6),
           Focus(
             onKeyEvent: (node, event) {
               if (event is KeyDownEvent &&
@@ -604,150 +622,213 @@ class QrGeneratorScreen extends StatelessWidget {
               autofocus: true,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               maxLength: 3,
-              style: const TextStyle(fontSize: 16),
+              style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14), // Smaller font
               decoration: InputDecoration(
-                labelText: 'Table Number',
-                labelStyle: const TextStyle(fontSize: 14),
-                hintText: 'e.g., 167',
+                hintText: 'Enter table number (e.g., 167)',
+                hintStyle: TextStyle(fontSize: 12), // Smaller hint text
                 counterText: '',
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   Icons.table_restaurant,
-                  color: Color(0xFF667eea),
-                  size: 22,
+                  color: theme.colorScheme.primary,
+                  size: 16, // Reduced from 10 to 16 (10 seems too small for an icon)
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFF667eea), width: 2),
-                ),
-                filled: true,
-                fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
+                  vertical: 8,    // Reduced vertical padding
+                  horizontal: 5, // Added horizontal padding for balance
                 ),
+                // isDense: true, // Makes the field more compact
               ),
               onChanged: (value) => controller.updateUrl(),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
 
           // Generate Button
           SizedBox(
             width: double.infinity,
-            height: 48,
+            height: 42,
             child: ElevatedButton.icon(
               onPressed: controller.generateQr,
-              icon: const Icon(Icons.refresh, size: 20),
-              label: const Text(
+              icon: const Icon(Icons.refresh, size: 18),
+              label: Text(
                 'Generate QR Code',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-              ),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: isDark ? Colors.black : AppTheme.textOnPrimary,
+                  fontSize: 14,
                 ),
-                backgroundColor: const Color(0xFF667eea),
-                foregroundColor: Colors.white,
-                elevation: 2,
               ),
             ),
           ),
           const SizedBox(height: 20),
 
-          // Compact Usage Guide
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.blue[50],
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.blue[200]!),
+          // Divider
+          Divider(
+            color: isDark ? const Color(0xFF3D4A5C) : Colors.grey[300],
+          ),
+          const SizedBox(height: 16),
+
+          // Usage Instructions
+          Text(
+            'Usage Instructions',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.info_outline, color: Colors.blue[700], size: 18),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Usage Guide',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[900],
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  '• Download QR codes for each table\n'
-                      '• Print and laminate for durability\n'
-                      '• Display at table locations\n'
-                      '• Customers scan to open menu',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.blue[800],
-                    height: 1.6,
-                  ),
-                ),
-              ],
-            ),
+          ),
+          const SizedBox(height: 12),
+          _buildInstructionItem(
+            '1',
+            'Enter Table Number',
+            'Input the table number',
+            isDark,
+          ),
+          const SizedBox(height: 8),
+          _buildInstructionItem(
+            '2',
+            'Generate QR Code',
+            'Click generate button',
+            isDark,
+          ),
+          const SizedBox(height: 8),
+          _buildInstructionItem(
+            '3',
+            'Download & Print',
+            'Download and place on tables',
+            isDark,
+          ),
+          const SizedBox(height: 8),
+          _buildInstructionItem(
+            '4',
+            'Customer Scans',
+            'Customers scan to view menu',
+            isDark,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildQrDisplay(QrGeneratorController controller) {
+  Widget _buildInstructionItem(
+      String number,
+      String title,
+      String description,
+      bool isDark,
+      ) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: AppTheme.primary.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            number,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.primary,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: isDark ? AppTheme.darkTextPrimary : AppTheme.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: isDark ? AppTheme.darkTextSecondary : AppTheme.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQrDisplay(
+      QrGeneratorController controller,
+      ThemeData theme,
+      bool isDark,
+      ) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.grey[50]!, Colors.grey[100]!],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF667eea), width: 3),
+        color: isDark ? AppTheme.darkSurface : AppTheme.surface,
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF667eea).withOpacity(0.15),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // QR Code Header
-          Text(
-            'Table ${controller.tableNumberController.text}',
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF333333),
+          // Header with Table Info
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: isDark
+                    ? [AppTheme.primaryLight, AppTheme.accentLight]
+                    : [AppTheme.primary, AppTheme.accent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.table_restaurant,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  children: [
+                    Text(
+                      'Table ${controller.tableNumberController.text}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Scan to View Menu',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            'Scan to Order',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
 
           // QR Code Display
           RepaintBoundary(
@@ -758,7 +839,7 @@ class QrGeneratorScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withOpacity(0.1),
                     blurRadius: 16,
                     offset: const Offset(0, 8),
                   ),
@@ -768,49 +849,60 @@ class QrGeneratorScreen extends StatelessWidget {
               child: QrImageView(
                 data: controller.generatedUrl.value,
                 version: QrVersions.auto,
-                size: 200.0,
+                size: 220.0,
                 backgroundColor: Colors.white,
                 errorCorrectionLevel: QrErrorCorrectLevel.M,
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
-          // Compact URL Display
+          // URL Display
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDark
+                  ? AppTheme.darkSurfaceVariant
+                  : AppTheme.surfaceVariant,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.grey[300]!),
+              border: Border.all(
+                color: theme.colorScheme.outline,
+              ),
             ),
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.link, color: Colors.grey[600], size: 16),
+                    Icon(
+                      Icons.link,
+                      color: AppTheme.primary,
+                      size: 16,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'Generated URL',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Colors.grey[700],
+                        color: isDark
+                            ? AppTheme.darkTextPrimary
+                            : AppTheme.textPrimary,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 SelectableText(
                   controller.generatedUrl.value,
                   style: TextStyle(
                     fontSize: 11,
-                    color: Colors.grey[700],
+                    color: isDark
+                        ? AppTheme.darkTextSecondary
+                        : AppTheme.textSecondary,
                     fontFamily: 'monospace',
                   ),
                   textAlign: TextAlign.center,
-                  maxLines: 2,
                 ),
               ],
             ),
@@ -818,68 +910,77 @@ class QrGeneratorScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Download Button
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: Obx(
-                  () => ElevatedButton.icon(
-                onPressed: controller.isGenerating.value
-                    ? null
-                    : controller.downloadQr,
-                icon: controller.isGenerating.value
-                    ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.white,
+          Row(
+            children: [
+              Expanded(
+                child: Obx(
+                      () => SizedBox(
+                    height: 44,
+                    child: ElevatedButton.icon(
+                      onPressed: controller.isGenerating.value
+                          ? null
+                          : controller.downloadQr,
+                      icon: controller.isGenerating.value
+                          ? SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            isDark ? Colors.black : Colors.white,
+                          ),
+                        ),
+                      )
+                          : const Icon(Icons.download, size: 20),
+                      label: Text(
+                        controller.isGenerating.value
+                            ? 'Downloading...'
+                            : 'Download QR Code',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? Colors.black : Colors.white,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isDark
+                            ? AppTheme.accentLight
+                            : AppTheme.accent,
+                      ),
                     ),
                   ),
-                )
-                    : const Icon(Icons.download, size: 20),
-                label: Text(
-                  controller.isGenerating.value
-                      ? 'Downloading...'
-                      : 'Download QR Code',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  backgroundColor: const Color(0xFF764ba2),
-                  foregroundColor: Colors.white,
-                  elevation: 2,
-                  disabledBackgroundColor: Colors.grey[400],
                 ),
               ),
-            ),
+            ],
           ),
           const SizedBox(height: 12),
 
-          // Compact Info Note
+          // Info Note
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.amber[50],
-              border: Border.all(color: Colors.amber[700]!, width: 1.5),
+              color: AppTheme.success.withOpacity(0.1),
+              border: Border.all(
+                color: AppTheme.success.withOpacity(0.3),
+              ),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               children: [
-                Icon(Icons.info_outline, color: Colors.amber[700], size: 18),
+                Icon(
+                  Icons.check_circle_outline,
+                  color: AppTheme.success,
+                  size: 18,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Scan to open table ${controller.tableNumberController.text} menu',
+                    'QR Code ready for download. Print and place on Table ${controller.tableNumberController.text}',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.amber[900],
-                      height: 1.4,
+                      color: isDark
+                          ? AppTheme.darkTextPrimary
+                          : AppTheme.textPrimary,
                     ),
                   ),
                 ),
@@ -891,35 +992,94 @@ class QrGeneratorScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceholder() {
+  Widget _buildPlaceholder(ThemeData theme, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(40),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey[300]!, width: 2),
+        color: isDark ? AppTheme.darkSurface : AppTheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outline,
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.qr_code_scanner, size: 100, color: Colors.grey[400]),
-          const SizedBox(height: 24),
-          Text(
-            'No QR Code Generated',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: isDark
+                  ? AppTheme.darkSurfaceVariant
+                  : AppTheme.surfaceVariant,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(
+              Icons.qr_code_scanner,
+              size: 80,
+              color: isDark
+                  ? AppTheme.darkTextTertiary
+                  : AppTheme.textTertiary,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 24),
           Text(
-            'Enter a table number and click\n"Generate QR Code" to create',
+            'No QR Code Generated Yet',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: isDark
+                  ? AppTheme.darkTextPrimary
+                  : AppTheme.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Enter a table number in the configuration panel\nand click "Generate QR Code" to get started',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[500],
+              fontSize: 13,
+              color: isDark
+                  ? AppTheme.darkTextSecondary
+                  : AppTheme.textSecondary,
               height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppTheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: AppTheme.primary.withOpacity(0.3),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  color: AppTheme.primary,
+                  size: 16,
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  'Start by configuring a table number',
+                  style: TextStyle(
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
