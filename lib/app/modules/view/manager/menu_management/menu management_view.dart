@@ -37,7 +37,7 @@ class MenuManagementView extends StatelessWidget {
               controller.loadMenuItems();
               controller.loadCategories();
             },
-            builder: (_) => buildMenuGrid(context),
+            builder: (_) => MenuGridView(),
           ),
         ),
       ],

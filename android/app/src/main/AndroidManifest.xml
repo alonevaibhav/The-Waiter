@@ -1,5 +1,69 @@
+<!--<manifest xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+<!--    <uses-permission android:name="android.permission.INTERNET"/>-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
+<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+
+<!--    &lt;!&ndash; Notification Permission &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />-->
+
+<!--    &lt;!&ndash; Camera Permission &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+
+<!--    &lt;!&ndash; Gallery & Media Permissions (Android 13+) &ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
+
+<!--    <application-->
+<!--        android:label="the_waiter"-->
+<!--        android:name="${applicationName}"-->
+<!--        android:icon="@mipmap/ic_launcher">-->
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:taskAffinity=""-->
+<!--            android:theme="@style/LaunchTheme"-->
+<!--            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"-->
+<!--            android:hardwareAccelerated="true"-->
+<!--            android:windowSoftInputMode="adjustResize">-->
+<!--            &lt;!&ndash; Specifies an Android theme to apply to this Activity as soon as-->
+<!--                 the Android process has started. This theme is visible to the user-->
+<!--                 while the Flutter UI initializes. After that, this theme continues-->
+<!--                 to determine the Window background behind the Flutter UI. &ndash;&gt;-->
+<!--            <meta-data-->
+<!--              android:name="io.flutter.embedding.android.NormalTheme"-->
+<!--              android:resource="@style/NormalTheme"-->
+<!--              />-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN"/>-->
+<!--                <category android:name="android.intent.category.LAUNCHER"/>-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        &lt;!&ndash; Don't delete the meta-data below.-->
+<!--             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java &ndash;&gt;-->
+<!--        <meta-data-->
+<!--            android:name="flutterEmbedding"-->
+<!--            android:value="2" />-->
+<!--    </application>-->
+<!--    &lt;!&ndash; Required to query activities that can process text, see:-->
+<!--         https://developer.android.com/training/package-visibility and-->
+<!--         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.-->
+
+<!--         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. &ndash;&gt;-->
+<!--    <queries>-->
+<!--        <intent>-->
+<!--            <action android:name="android.intent.action.PROCESS_TEXT"/>-->
+<!--            <data android:mimeType="text/plain"/>-->
+<!--        </intent>-->
+<!--    </queries>-->
+<!--</manifest>-->
+
+
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -15,37 +79,100 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
     <application
-        android:label="the_waiter"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+            android:label="the_waiter"
+            android:name="${applicationName}"
+            android:icon="@mipmap/ic_launcher">
+
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:taskAffinity=""
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+                android:name=".MainActivity"
+                android:exported="true"
+                android:launchMode="singleTop"
+                android:taskAffinity=""
+                android:theme="@style/LaunchTheme"
+                android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+                android:hardwareAccelerated="true"
+                android:windowSoftInputMode="adjustResize">
+
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                    android:name="io.flutter.embedding.android.NormalTheme"
+                    android:resource="@style/NormalTheme"
+            />
+
+            <!-- Launcher Intent -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <!-- ========================= -->
+            <!-- DEEP LINK INTENT FILTERS  -->
+            <!-- ========================= -->
+
+            <!-- Format 1: thewaiter://table/{tableId} -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="thewaiter" android:host="table"/>
+            </intent-filter>
+
+            <!-- Format 2: thewaiter://user?table_id=123 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="thewaiter" android:host="user"/>
+            </intent-filter>
+
+            <!-- Format 3: thewaiter://qr/table/{tableId} -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="thewaiter" android:host="qr"/>
+            </intent-filter>
+
+            <!-- Format 4: thewaiter://open?table_id=123 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="thewaiter" android:host="open"/>
+            </intent-filter>
+
+            <!-- Format 5: HTTPS Web URLs (https://the-waiter-1.vercel.app) -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="https"
+                        android:host="the-waiter-1.vercel.app"/>
+            </intent-filter>
+
+            <!-- Format 6: HTTP Web URLs (fallback) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                        android:scheme="http"
+                        android:host="the-waiter-1.vercel.app"/>
+            </intent-filter>
+
         </activity>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
+                android:name="flutterEmbedding"
+                android:value="2" />
     </application>
+
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.

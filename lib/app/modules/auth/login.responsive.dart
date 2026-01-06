@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
-
 import '../../core/widgets/responsive_layout.dart';
-import 'login.dart';
+import 'web_login.dart';
 import 'mobile_login_screen.dart';
 
 class LoginResponsive extends StatelessWidget {
