@@ -1,11 +1,11 @@
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../modules/auth/login.responsive.dart';
 import '../modules/view/chef/chef_dashboard.dart';
 import '../modules/view/manager/dashboard/manager_dashboard.dart';
 import '../modules/view/user/view/cart/cart_screen.dart';
 import '../modules/view/user/view/cart/checkout_screen.dart';
+import '../modules/view/user/view/cart/order_success_screen.dart';
 import '../modules/view/user/view/user_dashboard.dart';
 import '../modules/widgets/route_error_screen.dart';
 
@@ -23,6 +23,8 @@ class AppRoutes {
   static const userHome = '/userHome';
   static const cartScreen = 'cartScreen';
   static const checkoutScreen = 'checkoutScreen';
+  static const orderSuccess = 'orderSuccess';
+
 
   // Route paths - Chef
   static const chefHome = '/chefHome';
@@ -51,18 +53,18 @@ class AppRoutes {
 
     routes: [
       // Login Route
-      GoRoute(
-        path: login,
-        builder: (context, state) {
-          return LoginResponsive();
-        },
-      ),
       // GoRoute(
       //   path: login,
       //   builder: (context, state) {
-      //     return UserDashboard();
+      //     return LoginResponsive();
       //   },
       // ),
+      GoRoute(
+        path: login,
+        builder: (context, state) {
+          return UserDashboard();
+        },
+      ),
 
       // Manager Routes
       GoRoute(
@@ -100,11 +102,13 @@ class AppRoutes {
             },
           ),
           GoRoute(
-            path: cartScreen,
+            path: orderSuccess,
             builder: (context, state) {
-              return Placeholder();
+              final orderDetails = state.extra as Map<String, dynamic>;
+              return OrderSuccessScreen(orderDetails: orderDetails);
             },
           ),
+
         ],
       ),
 
@@ -170,6 +174,14 @@ class NavigationService {
     router.push('${AppRoutes.userHome}/${AppRoutes.checkoutScreen}');
   }
 
+
+  static void pushToOrderSuccess(Map<String, dynamic> orderDetails) {
+    developer.log('Push Order Success Screen', name: 'NavigationService');
+    router.go(
+      '${AppRoutes.userHome}/${AppRoutes.orderSuccess}',
+      extra: orderDetails,
+    );
+  }
   // Chef Navigation
   static void goToChefHome() {
     developer.log('Go to Chef Home', name: 'NavigationService');

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../core/theme/app_theme.dart';
+import '../../../../../route/app_routes.dart';
 import '../../user.controller/cart_controller.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -463,6 +464,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
       // Navigate to success screen
       // Get.off(() => OrderSuccessScreen(orderDetails: orderDetails));
+
+      NavigationService.pushToOrderSuccess(orderDetails);
+
 
       // Clear cart
       cartController.clearCart();
