@@ -1,15 +1,15 @@
-
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../modules/auth/login.responsive.dart';
 import '../modules/view/chef/chef_dashboard.dart';
 import '../modules/view/manager/dashboard/manager_dashboard.dart';
+import '../modules/view/user/view/cart/cart_screen.dart';
+import '../modules/view/user/view/cart/checkout_screen.dart';
 import '../modules/view/user/view/user_dashboard.dart';
 import '../modules/widgets/route_error_screen.dart';
 
 class AppRoutes {
-
   AppRoutes._();
 
   // Route paths - Auth
@@ -21,7 +21,8 @@ class AppRoutes {
 
   // Route paths - User
   static const userHome = '/userHome';
-  static const userPermission = 'permission';
+  static const cartScreen = 'cartScreen';
+  static const checkoutScreen = 'checkoutScreen';
 
   // Route paths - Chef
   static const chefHome = '/chefHome';
@@ -87,7 +88,19 @@ class AppRoutes {
         },
         routes: [
           GoRoute(
-            path: userPermission,
+            path: cartScreen,
+            builder: (context, state) {
+              return CartScreen();
+            },
+          ),
+          GoRoute(
+            path: checkoutScreen,
+            builder: (context, state) {
+              return CheckoutScreen();
+            },
+          ),
+          GoRoute(
+            path: cartScreen,
             builder: (context, state) {
               return Placeholder();
             },
@@ -148,9 +161,13 @@ class NavigationService {
     router.go(AppRoutes.userHome);
   }
 
-  static void pushToUserPermission() {
+  static void pushToCartScreen() {
     developer.log('Push User Permission Screen', name: 'NavigationService');
-    router.push('${AppRoutes.userHome}/${AppRoutes.userPermission}');
+    router.push('${AppRoutes.userHome}/${AppRoutes.cartScreen}');
+  }
+  static void pushToCheckoutScreen() {
+    developer.log('Push User Permission Screen', name: 'NavigationService');
+    router.push('${AppRoutes.userHome}/${AppRoutes.checkoutScreen}');
   }
 
   // Chef Navigation
@@ -182,7 +199,6 @@ class NavigationService {
         goToLogin(); // Fallback to login for unknown roles
     }
   }
-
 
   // Back navigation
   static void goBack() {
