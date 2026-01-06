@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                                 width: 1.5,
                               ),
                             ),
-                            child: ThemeToggleIconButton(),
+                            child: ThemeToggleButton(),
                           ),
                         ],
                       ),

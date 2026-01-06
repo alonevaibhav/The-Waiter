@@ -62,7 +62,7 @@ class MobileLoginScreen extends StatelessWidget {
                     width: 1.5,
                   ),
                 ),
-                child: ThemeToggleIconButton(),
+                child: ThemeToggleButton(),
               ),
             ],
           ),
