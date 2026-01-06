@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/theme_toggle.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../user/user_dashboard.dart';
 import '../menu_management/menu management_view.dart';
 import '../qr_code_generator/qr_code.dart';
 
@@ -66,6 +67,7 @@ class DashboardView extends StatelessWidget {
                       _buildMenuItem(0, Icons.dashboard, 'Dashboard', isDark),
                       _buildMenuItem(1, Icons.restaurant_menu, 'Menu Management', isDark),
                       _buildMenuItem(2, Icons.qr_code_2, 'QR Generator', isDark),
+                      _buildMenuItem(3, Icons.insert_invitation, 'Item', isDark),
                       _buildMenuItem(7, Icons.settings, 'Settings', isDark),
                     ],
                   ),
@@ -135,6 +137,8 @@ class DashboardView extends StatelessWidget {
                   return MenuManagementView();
                 case 2:
                   return QrGeneratorScreen();
+                  case 3:
+                  return UserDashboard();
                 default:
                   return DashboardHomeView();
               }
