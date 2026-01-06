@@ -5,7 +5,7 @@ import 'package:the_waiter/app/modules/view/manager/menu_management/widget/menu_
 import 'package:the_waiter/app/modules/view/manager/menu_management/widget/menu_m_header.dart';
 import 'package:the_waiter/app/modules/view/manager/menu_management/widget/menu_m_menu.dart';
 import '../../../../core/widgets/ui_state.dart';
-import '../../../controllers/manager/menu_controller.dart';
+import '../manager.controller/menu_controller.dart';
 
 class MenuManagementView extends StatelessWidget {
   const MenuManagementView({super.key});

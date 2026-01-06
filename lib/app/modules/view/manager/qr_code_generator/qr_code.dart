@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../controllers/manager/qr_code_controller.dart';
+import '../manager.controller/qr_code_controller.dart';
 
 class QrGeneratorScreen extends StatelessWidget {
   const QrGeneratorScreen({super.key});

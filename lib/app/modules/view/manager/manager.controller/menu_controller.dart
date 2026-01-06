@@ -1,7 +1,7 @@
 
 import 'package:get/get.dart';
-import '../../../core/storage/model/manager/menu_item_model.dart';
-import '../../../core/storage/storage_service.dart';
+import '../../../../core/storage/model/manager/menu_item_model.dart';
+import '../../../../core/storage/storage_service.dart';
 
 
 class ManagerMenuController extends GetxController {

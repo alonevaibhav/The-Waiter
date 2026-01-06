@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../core/theme/app_theme.dart';
-import '../../../../controllers/manager/menu_controller.dart';
+import '../../manager.controller/menu_controller.dart';
 
 
 

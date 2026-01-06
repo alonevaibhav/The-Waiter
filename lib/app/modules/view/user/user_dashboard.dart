@@ -1,115 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-// Model
-class FoodItem {
-  final String name;
-  final String restaurant;
-  final String image;
-  final double price;
-  final double rating;
-  final String time;
-  final List<String> tags;
-  final bool isVeg;
-
-  FoodItem({
-    required this.name,
-    required this.restaurant,
-    required this.image,
-    required this.price,
-    required this.rating,
-    required this.time,
-    required this.tags,
-    required this.isVeg,
-  });
-}
-
-// Controller
-class DashboardController extends GetxController {
-  var selectedCategory = 0.obs;
-  var searchQuery = ''.obs;
-
-  final categories = [
-    'All',
-    'Pizza',
-    'Burger',
-    'Biryani',
-    'Chinese',
-    'South Indian'
-  ];
-
-  final foodItems = <FoodItem>[
-    FoodItem(
-      name: 'Margherita Pizza',
-      restaurant: 'Pizza Hut',
-      image: '🍕',
-      price: 299,
-      rating: 4.5,
-      time: '30 min',
-      tags: ['Italian', 'Cheese'],
-      isVeg: true,
-    ),
-    FoodItem(
-      name: 'Chicken Burger',
-      restaurant: 'Burger King',
-      image: '🍔',
-      price: 199,
-      rating: 4.3,
-      time: '25 min',
-      tags: ['Fast Food'],
-      isVeg: false,
-    ),
-    FoodItem(
-      name: 'Chicken Biryani',
-      restaurant: 'Paradise Biryani',
-      image: '🍛',
-      price: 249,
-      rating: 4.7,
-      time: '40 min',
-      tags: ['Indian', 'Spicy'],
-      isVeg: false,
-    ),
-    FoodItem(
-      name: 'Veg Hakka Noodles',
-      restaurant: 'Chinese Wok',
-      image: '🍜',
-      price: 179,
-      rating: 4.2,
-      time: '35 min',
-      tags: ['Chinese', 'Noodles'],
-      isVeg: true,
-    ),
-    FoodItem(
-      name: 'Masala Dosa',
-      restaurant: 'Saravana Bhavan',
-      image: '🥞',
-      price: 89,
-      rating: 4.6,
-      time: '20 min',
-      tags: ['South Indian', 'Crispy'],
-      isVeg: true,
-    ),
-    FoodItem(
-      name: 'Paneer Pizza',
-      restaurant: 'Dominos',
-      image: '🍕',
-      price: 349,
-      rating: 4.4,
-      time: '30 min',
-      tags: ['Italian', 'Paneer'],
-      isVeg: true,
-    ),
-  ];
-
-  void selectCategory(int index) {
-    selectedCategory.value = index;
-  }
-
-  void updateSearch(String query) {
-    searchQuery.value = query;
-  }
-}
+import 'package:the_waiter/app/modules/view/user/user.controller/user_controller.dart';
+import '../../model/fooditem_model.dart';
 
 // Main Dashboard Widget
 class UserDashboard extends StatelessWidget {
@@ -184,7 +76,7 @@ class UserDashboard extends StatelessWidget {
           Container(
             height: 50,
             color: Colors.white,
-            child:  ListView.builder(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: controller.categories.length,
@@ -204,7 +96,9 @@ class UserDashboard extends StatelessWidget {
                         controller.categories[index],
                         style: TextStyle(
                           color: isSelected ? Colors.white : Colors.black87,
-                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
@@ -261,23 +155,25 @@ class FoodItemCard extends StatelessWidget {
               Container(
                 height: 180,
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
                   gradient: LinearGradient(
                     colors: [Colors.orange[300]!, Colors.red[300]!],
                   ),
                 ),
                 child: Center(
-                  child: Text(
-                    item.image,
-                    style: const TextStyle(fontSize: 80),
-                  ),
+                  child: Text(item.image, style: const TextStyle(fontSize: 80)),
                 ),
               ),
               Positioned(
                 top: 12,
                 left: 12,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: item.isVeg ? Colors.green : Colors.red,
                     borderRadius: BorderRadius.circular(4),
@@ -301,7 +197,11 @@ class FoodItemCard extends StatelessWidget {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.favorite_border, size: 20, color: Colors.red[700]),
+                  child: Icon(
+                    Icons.favorite_border,
+                    size: 20,
+                    color: Colors.red[700],
+                  ),
                 ),
               ),
             ],
@@ -323,26 +223,31 @@ class FoodItemCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   item.restaurant,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
                   children: item.tags
-                      .map((tag) => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      tag,
-                      style: const TextStyle(fontSize: 11, color: Colors.black87),
-                    ),
-                  ))
+                      .map(
+                        (tag) => Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            tag,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                      )
                       .toList(),
                 ),
                 const SizedBox(height: 12),
@@ -358,7 +263,11 @@ class FoodItemCard extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 16),
-                        Icon(Icons.access_time, color: Colors.grey[600], size: 18),
+                        Icon(
+                          Icons.access_time,
+                          color: Colors.grey[600],
+                          size: 18,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           item.time,
@@ -384,11 +293,17 @@ class FoodItemCard extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                           ),
                           child: const Text(
                             'ADD',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],

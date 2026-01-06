@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../core/storage/model/manager/menu_item_model.dart';
 import '../../../../../core/theme/app_theme.dart';
-import '../../../../controllers/manager/menu_controller.dart';
+import '../../manager.controller/menu_controller.dart';
 import 'menu_m_additem.dart';
 
 class MenuGridView extends StatelessWidget {
