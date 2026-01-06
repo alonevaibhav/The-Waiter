@@ -463,10 +463,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       };
 
       // Navigate to success screen
-      // Get.off(() => OrderSuccessScreen(orderDetails: orderDetails));
-
       NavigationService.pushToOrderSuccess(orderDetails);
-
 
       // Clear cart
       cartController.clearCart();
