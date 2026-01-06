@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../modules/auth/login.responsive.dart';
 import '../modules/view/chef/chef_dashboard.dart';
 import '../modules/view/manager/dashboard/manager_dashboard.dart';
-import '../modules/view/user/user_dashboard.dart';
+import '../modules/view/user/view/user_dashboard.dart';
 import '../modules/widgets/route_error_screen.dart';
 
 class AppRoutes {
@@ -50,18 +50,18 @@ class AppRoutes {
 
     routes: [
       // Login Route
-      // GoRoute(
-      //   path: login,
-      //   builder: (context, state) {
-      //     return LoginResponsive();
-      //   },
-      // ),
       GoRoute(
         path: login,
         builder: (context, state) {
-          return UserDashboard();
+          return LoginResponsive();
         },
       ),
+      // GoRoute(
+      //   path: login,
+      //   builder: (context, state) {
+      //     return UserDashboard();
+      //   },
+      // ),
 
       // Manager Routes
       GoRoute(

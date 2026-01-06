@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import '../../../model/fooditem_model.dart';
 
-class DashboardController extends GetxController {
+class UserDashboardController extends GetxController {
   var selectedCategory = 0.obs;
   var searchQuery = ''.obs;
 

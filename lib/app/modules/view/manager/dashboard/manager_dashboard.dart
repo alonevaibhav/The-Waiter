@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/theme_toggle.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../user/user_dashboard.dart';
+import '../../user/view/user_dashboard.dart';
 import '../menu_management/menu management_view.dart';
 import '../qr_code_generator/qr_code.dart';
 
